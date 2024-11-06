@@ -12,9 +12,13 @@ export function getInitialState(
     notMineCellsCount >= 0 ? notMineCellsCount : 0
   ).fill(false);
 
-  const mineSeeder = minesArray
-    .concat(notMinesArray)
-    .sort(() => Math.random() - 0.5); // shuffle seed array
+  const mineSeeder = [...minesArray, ...notMinesArray]
+
+  // Fisher-Yates shuffle
+  for (let i = mineSeeder.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [mineSeeder[i], mineSeeder[j]] = [mineSeeder[j], mineSeeder[i]];
+  }
 
   let seedCounter = 0;
 
