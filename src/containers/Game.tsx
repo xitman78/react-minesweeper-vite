@@ -1,8 +1,9 @@
-import * as React from "react";
+import React from "react";
 import styled from "styled-components";
 import { connect } from "react-redux";
 import Grid from "../components/Grid";
 import { resetGame } from "../store/action";
+import { GridState } from "../store/types";
 
 const MainContainer = styled.div`
   display: flex;
@@ -28,89 +29,72 @@ const Label = styled.label`
   padding-top: 6px;
 `;
 
-interface AppState {
+export interface GameProps {
   rows: number;
   cols: number;
   mines: number;
-}
-
-export interface GameProps {
   resetGame: typeof resetGame;
 }
 
-class Game extends React.Component<GameProps, AppState> {
-  constructor(props: GameProps) {
-    super(props);
-
-    this.handleInputChange = this.handleInputChange.bind(this);
-
-    this.state = {
-      rows: 10,
-      cols: 10,
-      mines: 10
-    };
-  }
-
-  handleInputChange(event: React.ChangeEvent<HTMLInputElement>) {
+const Game: React.FC<GameProps> = ({ resetGame, rows, cols, mines }) => {
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     let num = parseInt(event.target.value, 10);
     if (isNaN(num) || num <= 0) {
       num = 1;
     }
-    this.setState(
-      // @ts-ignore
-      {
-        [event.target.name]: num
-      },
-      () => {
-        this.props.resetGame(
-          this.state.rows,
-          this.state.cols,
-          this.state.mines
-        );
-      }
-    );
-  }
 
-  render() {
-    return (
-      <div>
-        <InputsContainer>
-          <Label htmlFor="rowsInput">Rows:</Label>
-          <Input
-            id="rowsInput"
-            type="number"
-            name="rows"
-            value={this.state.rows}
-            onChange={this.handleInputChange}
-          />
-          <Label htmlFor="colsInput">Columns:</Label>
-          <Input
-            id="colsInput"
-            type="number"
-            name="cols"
-            value={this.state.cols}
-            onChange={this.handleInputChange}
-          />
-          <Label htmlFor="colsInput">Mines:</Label>
-          <Input
-            id="minesInput"
-            type="number"
-            name="mines"
-            value={this.state.mines}
-            onChange={this.handleInputChange}
-          />
-        </InputsContainer>
-        <MainContainer>
-          <Grid />
-        </MainContainer>
-      </div>
-    );
-  }
-}
+    switch (event.target.name) {
+      case "rows":
+        resetGame(num, cols, mines);
+        break;
+      case "cols":
+        resetGame(rows, num, mines);
+        break;
+      case "mines":
+        resetGame(rows, cols, num);
+        break;
+    }
+  };
 
-export default connect(
-  null,
-  {
-    resetGame
-  }
-)(Game);
+  return (
+    <div>
+      <InputsContainer>
+        <Label htmlFor="rowsInput">Rows:</Label>
+        <Input
+          id="rowsInput"
+          type="number"
+          name="rows"
+          value={rows}
+          onChange={handleInputChange}
+        />
+        <Label htmlFor="colsInput">Columns:</Label>
+        <Input
+          id="colsInput"
+          type="number"
+          name="cols"
+          value={cols}
+          onChange={handleInputChange}
+        />
+        <Label htmlFor="minesInput">Mines:</Label>
+        <Input
+          id="minesInput"
+          type="number"
+          name="mines"
+          value={mines}
+          onChange={handleInputChange}
+        />
+      </InputsContainer>
+      <MainContainer>
+        <Grid />
+      </MainContainer>
+    </div>
+  );
+};
+
+const mapStateToProps = (state: GridState) => ({
+  rows: state.rows.length,
+  cols: state.rows[0].length,
+  mines: state.mines,
+});
+
+export default connect(mapStateToProps, { resetGame })(Game);
