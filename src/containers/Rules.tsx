@@ -11,30 +11,59 @@ const RulesContainer = styled.div`
   min-width: 400px;
 `;
 
-export interface RulesProps {
-
-}
+export interface RulesProps {}
 
 const Rules: React.FC<RulesProps> = () => {
   return (
     <PageContainer>
       <RulesContainer>
-        <h2>Game Rules</h2>
-        <p>This is web version of the classic <a
-          href="https://en.wikipedia.org/wiki/Minesweeper_(video_game)"
-          target="_blank">minesweeper puzzle.</a></p>
-        <p>To win just mark all mines on the field!</p>
-        <p><strong>Left click</strong> - Open a cell</p>
-        <p><strong>Right click</strong> - Mark a cell as containing a mine</p>
-        <p><strong>Double click</strong> - Smart move. Double click an opened
-        cell which has a number inside to open all closed neighbor cells.
-        But it works only If the number in the cell corresponds to a number
-        of marked mines in the neighborhood.</p>
-        <hr/>
-        Source code on <a href="https://github.com/xitman78/react-minesweeper"
-          target="_blank">GitHub</a>
-        <p>Developed by <a href="https://alexander-cherepnya.netlify.com"
-          target="_blank">Alexander Cherepnya</a></p>
+        <h2>How to Play Minesweeper</h2>
+        <p>
+          Welcome to the web version of the classic{" "}
+          <a
+            href="https://en.wikipedia.org/wiki/Minesweeper_(video_game)"
+            target="_blank"
+          >
+            Minesweeper puzzle
+          </a>
+          ! Your mission is to identify all the hidden mines on the field
+          without setting any off. Good luck!
+        </p>
+
+        <h3>Objective</h3>
+        <p>Mark all the mines on the field to win the game!</p>
+
+        <h3>Controls</h3>
+        <p>
+          <strong>Left Click</strong>: Reveal a cell.
+        </p>
+        <p>
+          <strong>Right Click</strong>: Mark a cell as containing a mine.
+        </p>
+        <p>
+          <strong>Double Click</strong>: Smart Move. Double-click on an opened
+          cell with a number to reveal all neighboring cells. This works only if
+          the number of marked mines around matches the number in the cell.
+        </p>
+
+        <hr />
+
+        <p>
+          Check out the source code on{" "}
+          <a
+            href="https://github.com/xitman78/react-minesweeper-vite"
+            target="_blank"
+          >
+            GitHub
+          </a>
+          .
+        </p>
+        <p>
+          Developed by{" "}
+          <a href="https://alexander-cherepnya.netlify.com" target="_blank">
+            Alexander Cherepnya
+          </a>
+        </p>
       </RulesContainer>
     </PageContainer>
   );
