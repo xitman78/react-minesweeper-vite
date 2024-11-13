@@ -9,6 +9,7 @@ import {
   NewGame
 } from "./actionTypes";
 import { handleDoubleClickRecursively } from "../helpers/handleDoubleClickRecursively";
+import { playLosingTune, playWinningTune } from "../audio/tunes";
 
 type ActionType =
   | ClickAction
@@ -39,6 +40,8 @@ export function game(
 
       if (cell.isMine) {
         // game over
+        playLosingTune();
+
         return {
           rows: state.rows.map(row =>
             row.map(cell => ({ ...cell, isOpen: true }))
@@ -69,6 +72,7 @@ export function game(
           cellsOpened + opened + minesMarked ===
             state.rows.length * state.rows[0].length
         ) {
+          playWinningTune();
           // victory
           console.log("!!!!!!!!!!!!!victoria!!!!!!!!!!!!!!!!!!");
           gameState = "win";
@@ -97,6 +101,7 @@ export function game(
         cellsOpened + minesMarked === state.rows.length * state.rows[0].length
       ) {
         // victory
+        playWinningTune();
         console.log("!!!!!!!!!!!!!victoria!!!!!!!!!!!!!!!!!!");
         gameState = "win";
       }
@@ -137,6 +142,7 @@ export function game(
           state.rows.length * state.rows[0].length
       ) {
         // victory
+        playWinningTune();
         console.log("!!!!!!!!!!!!!victoria!!!!!!!!!!!!!!!!!!");
         gameState = "win";
       }
@@ -178,6 +184,7 @@ export function game(
           state.rows.length * state.rows[0].length
       ) {
         // victory
+        playWinningTune();
         console.log("!!!!!!!!!!!!!victoria!!!!!!!!!!!!!!!!!! 111");
         gameState = "win";
       }
